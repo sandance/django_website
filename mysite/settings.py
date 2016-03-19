@@ -74,6 +74,14 @@ TEMPLATES = [
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
 
+EMAIL_HOST='smtp.office365.com'
+EMAIL_HOST_USER='mnislam42@students.tntech.edu'
+EMAIL_HOST_PASSWORD='Nazmul0!'
+EMAIL_PORT = 995
+EMAIL_USE_TLS = True
+
+
+
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
