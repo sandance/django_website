@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.contrib.sitemaps.views import sitemap
 from blog.sitemaps import PostSitemap
 
+
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^blog/', include('blog.urls', namespace='blog', app_name='blog')),
