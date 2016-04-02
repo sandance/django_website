@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import django.contrib.sites
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
@@ -29,6 +31,7 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
+SITE_ID = 1
 
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -39,6 +42,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'blog',
     'taggit',
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
 )
 
 SOUTH_MIGRATION_MODULES = {
