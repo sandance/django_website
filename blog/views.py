@@ -5,6 +5,8 @@ from .models import Post, Comment
 from .forms import EmailPostForm, CommentForm
 from django.core.mail import send_mail
 from taggit.models import Tag
+from django.db.models import Count
+
 
 
 def post_list(request, tag_slug=None):
@@ -65,7 +67,17 @@ def post_detail(request,year,month,day,post):
             new_comment.save()
     else:
         comment_form = CommentForm()
-    return render(request, 'blog/post/detail.html', {'post': post,'comments':comments,'comment_form':comment_form})
+        ## Here we want to do aggregated counts
+        """
+        1. Here we have retrieve list of ID's for the tags of the current post
+        2. We get all posts that contain any of those tags excluding the current post itself
+        3. we generate a calculated field same_tags             that contains number of tags shared with all the tags
+        4. we order the result by the number of shared tags and by the publish to display recent posts first
+        """
+        post_tags_id = post.tags.values_list('id',flat=True)
+        similar_posts = Post.published.filter(tags__in=post_tags_id).exclude(id=post.id)
+        similar_posts = similar_posts.annotate(same_tags=Count('tags')).order_by('-same_tags','-publish')[:4]
+    return render(request, 'blog/post/detail.html', {'post': post,'comments':comments,'comment_form':comment_form,'similar_posts' : similar_posts})
 
 
 
@@ -94,6 +106,8 @@ def post_share(request, post_id):
     return render(request, 'blog/post/share.html', {'post': post,
                                                     'form': form,
                                                     'sent': sent})
+
+
 #    else:
 #        form = EmailPostForm()
 #    return render(request,'blog/post/share.html',{'posts' : post, 'form':form})
