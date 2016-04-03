@@ -7,7 +7,7 @@ class LatestPostsFeed(Feed):
     link = '/blog/'
     description = 'New posts of my blog'
 
-    def item(self):
+    def items(self):
         return Post.published.all()[:5]
 
     """
