@@ -10,9 +10,16 @@ from django.db.models import Count
 
 
 def post_list(request, tag_slug=None):
+    """
+
+    :param request:
+    :param tag_slug: optional
+    :return:
+    """
     object_list = Post.published.all()
     tag = None
     if tag_slug:
+        # Here we are retrieving all published posts and find if there is a given tag slug
         tag = get_object_or_404(Tag, slug=tag_slug)
         object_list = object_list.filter(tags__in=[tag])
     paginator = Paginator(object_list, 3) # 3 posts in each page
@@ -45,7 +52,7 @@ def post_detail(request, year, month, day, post):
     return render(request, 'blog/post/detail.html', {'post': post})
 """
 
-def post_detail(request,year,month,day,post):
+def post_detail(request, year, month, day, post):
     post = get_object_or_404(Post, slug=post,
                                    status='published',
                                    publish__year=year,
@@ -91,17 +98,19 @@ def post_share(request, post_id):
     if request.method == 'POST':
         # Form was submitted
         form = EmailPostForm(request.POST)
+        # form.is_valid checks if the form has valid data in it.
         if form.is_valid():
             # From fields passed validation
             cd = form.cleaned_data
             # .... send email
             # Builds a complete URL including HTTP schema and hostname
             post_url = request.build_absolute_uri(post.get_absolute_url())
-            subject = '{} ({}) recommends you reading {}'.format(cd['name'],cd['email'],post.title)
+            subject = '{} ({}) recommends you reading "{}"'.format(cd['name'],cd['email'],post.title)
             message = 'Read "{}" at {}\n\n{}\'s comments: {}'.format(post.title, post_url, cd['name'], cd['comments'])
-            send_mail(subject, message, 'admin@myblog.com', [cd['to']])
+            send_mail(subject, message, 'nazmul.pff@gmail.com', [cd['to']])
             sent = True
     else:
+        #when we get GET request , we display empty Form
         form = EmailPostForm()
     return render(request, 'blog/post/share.html', {'post': post,
                                                     'form': form,

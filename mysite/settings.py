@@ -83,10 +83,10 @@ TEMPLATES = [
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
 
-EMAIL_HOST='smtp.office365.com'
-EMAIL_HOST_USER='mnislam42@students.tntech.edu'
-EMAIL_HOST_PASSWORD='Nazmul0!'
-EMAIL_PORT = 995
+EMAIL_HOST='smtp.gmail.com'
+EMAIL_HOST_USER='nazmul.pff@gmail.com'
+EMAIL_HOST_PASSWORD='RashedMuadh2014'
+EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
 

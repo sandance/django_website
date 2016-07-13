@@ -42,6 +42,9 @@ class Post(models.Model):
 
 # Create a model to add comment into the blog
 class Comment(models.Model):
+    """
+    Many to one relationship with comment and post
+    """
     post = models.ForeignKey(Post, related_name='comments')
     name = models.CharField(max_length=80)
     email = models.EmailField()
